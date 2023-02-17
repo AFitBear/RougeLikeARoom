@@ -10,7 +10,7 @@
             {
                 {
                     new ItemClasses { Catogorie = ItemClasses.Catogory.Healing, heiling = ItemClasses.Healing.bread, durability = 6 };
-                    
+                    //hej
                 }   
             }
         }
