@@ -5,8 +5,9 @@
         public enum Catogory
         {
             Healing,
-            Weaponing,
+            Weaponing
         }
+        public Catogory Catogorie { get; set; }
         public enum Healing
         {
             bread,
@@ -17,6 +18,6 @@
         public HealClass  { get; set; }
 
     public int durability { get; set; }
-
+    
 }
 }
