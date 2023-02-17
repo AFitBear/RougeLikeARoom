@@ -4,6 +4,7 @@
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("gg");
             ItemClasses itemClasses = new ItemClasses();
 
             while (true)
