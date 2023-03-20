@@ -11,11 +11,10 @@ namespace rougeLikeADarkRoom
 
         static void Main(string[] args)
         {
-            Console.WriteLine("gg");
-            /*int rows = 20;
-            int cols = rows;*/
-            int length = 23;
-            size= length;
+            Console.CursorVisible = false;
+            //int rows = 20;
+            //int cols = rows;
+            size = 23;
            //makes the board
             ItemClasses itemClasses = new ItemClasses();
             Board boardPrint = new Board();
@@ -29,23 +28,24 @@ namespace rougeLikeADarkRoom
            tinkk = int.Parse(loadFile.ReadLine());
            */
             //start position is the middle of the board
-            xPorsition %= 2;
-            yPorsition %= 2;
-            const float TARGET_FPS = 24; // Frame rate (ønsket)
+            xPorsition = size/2;
+            yPorsition = size/2;
+            /*const float TARGET_FPS = 24; // Frame rate (ønsket)
             const float TARGET_FRAME_TIME = 1f / TARGET_FPS; // Tid per frame
             DateTime previousFrameTime;
-            float elapsedTime = 0f;
+            float elapsedTime = 0f;*/
+            //game loop
             while (true)
             {
                 person.action(ref xPorsition,ref yPorsition);
-                previousFrameTime = DateTime.UtcNow;
+                /*previousFrameTime = DateTime.UtcNow;
                 elapsedTime = (float)(DateTime.UtcNow - previousFrameTime).TotalSeconds;
                 if (elapsedTime < TARGET_FRAME_TIME)
                 {
                     // Hvis en frame tid ikke er forløbet endnu, sov lidt:
                     int sleepTime = (int)((TARGET_FRAME_TIME - elapsedTime) * 1000);
                     System.Threading.Thread.Sleep(sleepTime);
-                }
+                }*/
             }
             //new ItemClasses { Catogorie = ItemClasses.Catogory.Healing, heiling = ItemClasses.Healing.bread, durability = 6 };
         }

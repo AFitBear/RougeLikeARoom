@@ -1,72 +1,121 @@
 ﻿namespace rougeLikeADarkRoom
 {
+    internal class Position
+    {
+        public int row;
+        public int col;
+        public Position(int r, int c)
+        {
+            row = r;
+            col = c;
+        }
+    }
+   /* internal class TileType
+    {
+        public enum TileTypes
+        {
+            wall,
+            chest,
+            unexpored,
+            explored,
+            bandit,
+            boss = 67
+
+        
+        }
+        public TileTypes theTileType;
+        public TileType(TileTypes type)
+        {
+            theTileType = type;
+        }
+
+    }*/
+   internal class Tyletype
+    {
+        public string name;
+        public char logo;
+        public Tyletype(string nme, char lgo)
+        {
+            name = nme;
+            logo = lgo;
+        }
+    }
+
     internal class Board
     {
-        public static void PrintBoard(int rowAndCol)
+        static public Dictionary<Position, int> manyPosition;
+
+        public static void PrintBoard(int rowsAndCols)
         {
-            Console.OutputEncoding = System.Text.Encoding.Unicode;
-            for (int row = 0; row < rowAndCol - 1; row++)
+            manyPosition = new Dictionary<Position, int>();
+            Random random = new Random();
+            for (int row = 0; row < rowsAndCols - 1; row++)
             {
-                for (int col = 0; col < rowAndCol - 1; col++)
+                for (int col = 0; col < rowsAndCols - 1; col++)
                 {
-                    if (row == 0 || col == 0 || row == rowAndCol - 2 || col == rowAndCol - 2)
+                    Console.SetCursorPosition(col, row);
+                    if (row == 0 || col == 0 || row == rowsAndCols - 2 || col == rowsAndCols - 2)
                     {
-                        Console.SetCursorPosition(col, row);
-                        Console.Write('\u25ae');
+                        Console.Write('█');
+                        manyPosition.Add(new Position(row, col), 1);
                     }
                     else
                     {
-                        Console.SetCursorPosition(col, row);
-                        Console.WriteLine(".");
+                        if (random.Next(1, 21) == 2)
+                        {
+                            Console.Write("¤");
+                            //manyPosition
+                        }
+                        else
+                        {
+                            Console.WriteLine(".");
+                        }
                     }
                 }
             }
         }
     }
+
     internal class person
     {
 
         public static void action(ref int x, ref int y)
         {
-            ConsoleKeyInfo key = Console.ReadKey();
+            ConsoleKeyInfo key = Console.ReadKey(true);//There need to be "true" so it intercepts the thing i write.AKA it does not wirte the letter I press down.
+            Console.SetCursorPosition(x, y);
+            Console.Write('+');
             switch (key.Key)
             {
                 case ConsoleKey.UpArrow or ConsoleKey.W:
-                    if (y > 2)
+                    if (y > 1)
                     {
                         y -= 1;
-                        Console.SetCursorPosition(x, y);
-                        Console.Write('@');
                     }
                     break;
                 case ConsoleKey.DownArrow or ConsoleKey.S:
-                    if (y < 22)
+                    if (y < Program.size-3)
                     {
-                        y += +1;
-                        Console.SetCursorPosition(x, y);
-                        Console.Write('@');
+                        y += 1;
                     }
                     break;
                 case ConsoleKey.RightArrow or ConsoleKey.D:
-                    x += +1;
-                    if (x < 22)
+                    if (x < (Program.size - 3))
                     {
-                        Console.SetCursorPosition(x, y);
-                        Console.Write('@');
+                        x += 1;
                     }
                     break;
                 case ConsoleKey.LeftArrow or ConsoleKey.A:
-                    x -= 1;
                     if (x > 1)
                     {
-                        Console.SetCursorPosition(x, y);
-                        Console.Write('@');
+                        x -= 1;
                     }
                     break;
                 default:
                     break;
 
             }
+            Console.SetCursorPosition(x, y);
+            Console.Write('@');
         }
     }
 
