@@ -10,45 +10,56 @@
             col = c;
         }
     }
-   /* internal class TileType
+    internal class TileType
     {
-        public enum TileTypes
+        public enum Types
         {
             wall,
             chest,
             unexpored,
             explored,
             bandit,
-            boss = 67
+            boss
 
-        
+
         }
-        public TileTypes theTileType;
-        public TileType(TileTypes type)
+        public Types theTileType;
+        public TileType(Types type)
         {
             theTileType = type;
         }
 
-    }*/
-   internal class Tyletype
-    {
-        public string name;
-        public char logo;
-        public Tyletype(string nme, char lgo)
-        {
-            name = nme;
-            logo = lgo;
-        }
+
     }
+    /*internal class Tyletype
+     {
+         public string name;
+         public char logo;
+         public Tyletype(string nme, char lgo)
+         {
+             name = nme;
+             logo = lgo;
+         }
+     }*/ //Old code. legacy code if you will...
 
     internal class Board
     {
-        static public Dictionary<Position, int> manyPosition;
+        static public int magicnumber = 21;
+        static public int luckyness = 20;
+        static public TileType.Types[][] manyPosition;
 
         public static void PrintBoard(int rowsAndCols)
         {
-            manyPosition = new Dictionary<Position, int>();
+            manyPosition = new TileType.Types[Program.size][];
+            for (int i = 0; i < manyPosition.Length; i++)
+            {
+                manyPosition[i] = new TileType.Types[Program.size];
+
+            }
             Random random = new Random();
+            Console.SetCursorPosition(1, 1);
+            Console.Write('B');
+            manyPosition[1][1] = TileType.Types.boss;
             for (int row = 0; row < rowsAndCols - 1; row++)
             {
                 for (int col = 0; col < rowsAndCols - 1; col++)
@@ -57,18 +68,36 @@
                     if (row == 0 || col == 0 || row == rowsAndCols - 2 || col == rowsAndCols - 2)
                     {
                         Console.Write('█');
-                        manyPosition.Add(new Position(row, col), 1);
+                        manyPosition[row][col] = TileType.Types.wall;
                     }
                     else
                     {
-                        if (random.Next(1, 21) == 2)
+                        if (random.Next(1, magicnumber) == 2)
                         {
+
                             Console.Write("¤");
-                            //manyPosition
+                            manyPosition[row][col] = TileType.Types.chest;
+                            switch (random.Next(0, luckyness))
+                            {
+                                case < 10:
+                                    Console.WriteLine("under10");
+                                    break;
+                                case > 10:
+                                    Console.WriteLine("over10");
+                                    break;
+                                case 10:
+                                    Console.WriteLine("is10");
+                                    break;
+                                default:
+                                    break;
+                            }
+
+
                         }
                         else
                         {
                             Console.WriteLine(".");
+                            manyPosition[row][col] = TileType.Types.unexpored;
                         }
                     }
                 }
@@ -93,7 +122,7 @@
                     }
                     break;
                 case ConsoleKey.DownArrow or ConsoleKey.S:
-                    if (y < Program.size-3)
+                    if (y < Program.size - 3)
                     {
                         y += 1;
                     }
