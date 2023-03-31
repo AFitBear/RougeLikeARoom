@@ -39,6 +39,7 @@
 
     internal class Board
     {
+        static public Random randoms;
         static public int magicnumber = 21;
         static public int luckyness = 20;
         static public TileType.Types[][] manyPosition;
@@ -51,7 +52,7 @@
                 manyPosition[i] = new TileType.Types[Program.size];
 
             }
-            Random random = new Random();
+            randoms = new Random();
             for (int row = 0; row < rowsAndCols - 1; row++)
             {
                 for (int col = 0; col < rowsAndCols - 1; col++)
@@ -64,13 +65,13 @@
                     }
                     else
                     {
-                        if (random.Next(1, magicnumber) == 2)
+                        if (randoms.Next(1, magicnumber) == 2)
                         {
 
                             Console.Write("¤");
                             manyPosition[row][col] = TileType.Types.chest;
                             //laver en chance for at lave en chest eller en bandit osv.
-                            switch (random.Next(0, luckyness))
+                            switch (randoms.Next(0, luckyness))
                             {
                                 case < 10 when 4 < 5:
                                     manyPosition[row][col] = TileType.Types.chest;
@@ -129,16 +130,17 @@
             switch (actionThing)
             {
                 case 2 or 3:
-
-                break;
+                    if (randoms.Next(0, 10) == 3)
+                        BanditAction();
+                    break;
                 case 4:
-
-                break;
+                    ChestAction();
+                    break;
                 case 5:
-
+                    BanditAction();
                 break;
                 case 6:
-
+                    BossAction();
                 break;
                 default:
                 break;
@@ -148,11 +150,11 @@
         {
 
         }
-            public static void ChestAction()
+        public static void ChestAction()
         {
 
         }
-            public static void BossAction()
+        public static void BossAction()
         {
 
         }

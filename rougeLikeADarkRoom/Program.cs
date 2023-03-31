@@ -1,11 +1,13 @@
 ﻿namespace rougeLikeADarkRoom
 {
+
     internal class Program
     {
         static public int size;
         static public int xPorsition;
         static public int yPorsition;
         static public int difficulty = 1;
+        
 
         static void Main(string[] args)
         {
