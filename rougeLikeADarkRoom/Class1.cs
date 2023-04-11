@@ -57,7 +57,7 @@
             {
                 for (int col = 0; col < rowsAndCols - 1; col++)
                 {
-                    Console.SetCursorPosition(col, row);
+                    Console.SetCursorPosition(row, col);
                     if (row == 0 || col == 0 || row == rowsAndCols - 2 || col == rowsAndCols - 2)
                     {
                         Console.Write('█');
@@ -68,16 +68,17 @@
                         if (randoms.Next(1, magicnumber) == 2)
                         {
 
-                            Console.Write("¤");
-                            manyPosition[row][col] = TileType.Types.chest;
+                            //Console.Write("¤");
                             //laver en chance for at lave en chest eller en bandit osv.
                             switch (randoms.Next(0, luckyness))
                             {
                                 case < 10 when 4 < 5:
+                                    Console.Write("c");
                                     manyPosition[row][col] = TileType.Types.chest;
                                     break;
                                 case > 9:
-                                    manyPosition[row][col] = TileType.Types.chest;
+                                    Console.Write("b");
+                                    manyPosition[row][col] = TileType.Types.bandit;
                                     break;
                                 default:
                                     manyPosition[row][col] = TileType.Types.unexplored;
@@ -97,6 +98,11 @@
             Console.SetCursorPosition(1, 1);
             Console.Write(GetTileTypeInfo(TileType.Types.boss).logo);
             manyPosition[1][1] = TileType.Types.boss;
+
+            manyPosition[2][5] = TileType.Types.wall;
+            Console.SetCursorPosition(2, 5);
+            Console.Write(GetTileTypeInfo(TileType.Types.wall).logo); ;
+
 
         }
         public static (string name, char logo, int number) GetTileTypeInfo(TileType.Types theTile)
@@ -124,8 +130,13 @@
                     return ("null", '?', 0);
             }
         }
+        public static TileType.Types CheckTileType(int x, int y)
+        {
+            return manyPosition[x][y];
+        }
         public static void CheckAction(int actionThing)
         {
+            //manyPosition(x,y) //check what tile function, with a return. then have that return be the int or something
             //checks what action need to be done. like if you are on a bandit tile then i does bandit action
             switch (actionThing)
             {
@@ -138,25 +149,28 @@
                     break;
                 case 5:
                     BanditAction();
-                break;
+                    break;
                 case 6:
                     BossAction();
-                break;
+                    break;
                 default:
-                break;
+                    break;
             }
         }
         public static void BanditAction()
         {
-
+            Console.SetCursorPosition(50, 26);
+            Console.WriteLine("BanditAction");
         }
         public static void ChestAction()
         {
-
+            Console.SetCursorPosition(51, 27);
+            Console.WriteLine("ChestAction");
         }
         public static void BossAction()
         {
-
+            Console.SetCursorPosition(47, 26);
+            Console.WriteLine("BossAction");
         }
 
     }
@@ -168,28 +182,29 @@
             ConsoleKeyInfo key = Console.ReadKey(true);//There need to be "true" so it intercepts the thing i write.AKA it does not wirte the letter I press down.
             Console.SetCursorPosition(x, y);
             Console.Write('+');
+            Board.manyPosition[x][y] = TileType.Types.explored;
             switch (key.Key)
             {
                 case ConsoleKey.UpArrow or ConsoleKey.W:
-                    if (y > 1)
+                    if (y > 1 && Board.manyPosition[x][y - 1] != TileType.Types.wall)
                     {
                         y--;
                     }
                     break;
                 case ConsoleKey.DownArrow or ConsoleKey.S:
-                    if (y < Program.size - 3)
+                    if (y < Program.size - 3 && Board.manyPosition[x][y + 1] != TileType.Types.wall)
                     {
                         y++;
                     }
                     break;
                 case ConsoleKey.RightArrow or ConsoleKey.D:
-                    if (x < (Program.size - 3))
+                    if (x < Program.size - 3 && Board.manyPosition[x + 1][y] != TileType.Types.wall)
                     {
                         x++;
                     }
                     break;
                 case ConsoleKey.LeftArrow or ConsoleKey.A:
-                    if (x > 1)
+                    if (x > 1 && Board.manyPosition[x - 1][y] != TileType.Types.wall)
                     {
                         x--;
                     }
@@ -202,31 +217,31 @@
             Console.Write('@');
 
         }
+        public static void Setup()
+        {
+            Console.SetCursorPosition(0, 50);
+            Console.WriteLine("My name is Yoshikage Kira. I'm 33 years old. ");
+            Console.WriteLine("My house is in the northeast section of Morioh, where all the villas are, and I am not married.");
+            Console.WriteLine("I work as an employee for the Kame Yu department stores, and I get home every day by 8 PM at the latest.");
+            Console.WriteLine("I don't smoke, but I occasionally drink. ");
+            Console.WriteLine("I’m in bed by 11 PM, and make sure I get eight hours of sleep, no matter what.");
+            Console.WriteLine("After having a glass of warm milk and doing about twenty minutes of stretches before going to bed, ");
+            Console.WriteLine("I usually have no problems sleeping until morning.");
+            Console.WriteLine("Just like a baby, I wake up without any fatigue or stress in the morning. ");
+            Console.WriteLine("I was told there were no issues at my last check-up.");
+            Console.WriteLine("I’m trying to explain that I’m a person who wishes to live a very quiet life.");
+            Console.WriteLine("I take care not to trouble myself with any enemies, like winning and losing, that would cause me to lose sleep at night.");
+            Console.WriteLine("That is how I deal with society, and I know that is what brings me happiness. ");
+            Console.WriteLine("Although, if I were to fight I wouldn’t lose to anyone.");
+        }
     }
-
-    internal class ItemClasses
+    public static class Draww
     {
-        public enum Catogory
+        public static void Paint(int x, int y, char sym, ConsoleColor color)
         {
-            Healing,
-            Weaponing,
-            miscing
+            return;
         }
-        public Catogory Catogorie { get; set; }
-        public enum Healing
-        {
-            bread,
-            healPotion,
-            bandage,
-            cocio
-        }
-        public Healing heiling { get; set; }
-
-        public string name { get; set; }
-
-
-        public int durability { get; set; }
-
     }
+
 }
 
