@@ -11,9 +11,7 @@
 
         static void Main(string[] args)
         {
-            person.Setup();
-
-            Console.CursorVisible = false;
+            person.Setup(); //Setting things up
             size = 23;
             //makes the board
             Board boardPrint = new Board();
@@ -21,11 +19,14 @@
             //start position is the middle of the board
             xPorsition = size / 2;
             yPorsition = size / 2;
+            //Makes the fights board where you fight enemies
+            Fight fight = new Fight();
+            Fight.PrintFight(size);
             //game loop
             while (true)
             {
                 Console.SetCursorPosition(50, 20);
-                Console.WriteLine(xPorsition + " " + yPorsition + "  ");
+                Console.WriteLine(xPorsition + " " + yPorsition + "    ");
                 Console.SetCursorPosition(50, 21);
                 Console.WriteLine(Board.CheckTileType(xPorsition, yPorsition) + "          ");
                 person.action(ref xPorsition, ref yPorsition);

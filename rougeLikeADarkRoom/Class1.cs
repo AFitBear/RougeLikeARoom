@@ -1,16 +1,6 @@
 ﻿namespace rougeLikeADarkRoom
 {
-    internal class Position
-    {
-        public int row;
-        public int col;
-        public Position(int r, int c)
-        {
-            row = r;
-            col = c;
-        }
-    }
-    internal class TileType
+        internal class TileType
     {
         public enum Types
         {
@@ -159,6 +149,7 @@
         }
         public static void BanditAction()
         {
+            Fight.BanditFight();
             Console.SetCursorPosition(50, 26);
             Console.WriteLine("BanditAction");
         }
@@ -169,6 +160,7 @@
         }
         public static void BossAction()
         {
+            Fight.BossFight();
             Console.SetCursorPosition(47, 26);
             Console.WriteLine("BossAction");
         }
@@ -219,6 +211,8 @@
         }
         public static void Setup()
         {
+            //Console.OutputEncoding=System.Text.Encoding.Unicode; If it ever comes to using more complex text.
+            Console.CursorVisible = false;
             Console.SetCursorPosition(0, 50);
             Console.WriteLine("My name is Yoshikage Kira. I'm 33 years old. ");
             Console.WriteLine("My house is in the northeast section of Morioh, where all the villas are, and I am not married.");
