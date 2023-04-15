@@ -3,12 +3,11 @@
 
     internal class Program
     {
+        static public int level = 0;
         static public int size;
         static public int xPorsition;
         static public int yPorsition;
         static public int difficulty = 1;
-
-
         static void Main(string[] args)
         {
             person.Setup(); //Setting things up
@@ -31,20 +30,25 @@
                 Console.WriteLine(Board.CheckTileType(xPorsition, yPorsition) + "          ");
                 person.action(ref xPorsition, ref yPorsition);
                 Board.CheckAction(Board.GetTileTypeInfo(Board.CheckTileType(xPorsition, yPorsition)).number);
-
+                if (Fight.ChechIfDed())
+                {
+                    break; 
+                }
                 //ConsoleColor thing = ConsoleColor.Red;
                 //Console.ForegroundColor = thing;
                 //Console.WriteLine(Board.GetTileTypeInfo(Board.CheckTileType(1, 1)));
                 //                                                 CheckAction(GetTileTypeInfo(TileType.Types theTile));
-                /*previousFrameTime = DateTime.UtcNow;
-                elapsedTime = (float)(DateTime.UtcNow - previousFrameTime).TotalSeconds;
-                if (elapsedTime < TARGET_FRAME_TIME)
-                {
-                    // Hvis en frame tid ikke er forløbet endnu, sov lidt:
-                    int sleepTime = (int)((TARGET_FRAME_TIME - elapsedTime) * 1000);
-                    System.Threading.Thread.Sleep(sleepTime);
-                }*/
+                    /*previousFrameTime = DateTime.UtcNow;
+                    elapsedTime = (float)(DateTime.UtcNow - previousFrameTime).TotalSeconds;
+                    if (elapsedTime < TARGET_FRAME_TIME)
+                    {
+                        // Hvis en frame tid ikke er forløbet endnu, sov lidt:
+                        int sleepTime = (int)((TARGET_FRAME_TIME - elapsedTime) * 1000);
+                        System.Threading.Thread.Sleep(sleepTime);
+                    }*/
             }
+            Console.Clear();
+            Console.WriteLine("You Dead");
         }
     }
 }

@@ -50,7 +50,7 @@
                     Console.SetCursorPosition(row, col);
                     if (row == 0 || col == 0 || row == rowsAndCols - 2 || col == rowsAndCols - 2)
                     {
-                        Console.Write('█');
+                        Console.Write(GetTileTypeInfo(TileType.Types.wall).logo);
                         manyPosition[row][col] = TileType.Types.wall;
                     }
                     else
@@ -63,11 +63,11 @@
                             switch (randoms.Next(0, luckyness))
                             {
                                 case < 10 when 4 < 5:
-                                    Console.Write("c");
+                                    Console.Write(GetTileTypeInfo(TileType.Types.chest).logo);
                                     manyPosition[row][col] = TileType.Types.chest;
                                     break;
                                 case > 9:
-                                    Console.Write("b");
+                                    Console.Write(GetTileTypeInfo(TileType.Types.bandit).logo);
                                     manyPosition[row][col] = TileType.Types.bandit;
                                     break;
                                 default:
@@ -79,7 +79,7 @@
                         }
                         else
                         {
-                            Console.WriteLine(".");
+                            Console.Write(GetTileTypeInfo(TileType.Types.unexplored).logo);
                             manyPosition[row][col] = TileType.Types.unexplored;
                         }
                     }
@@ -178,25 +178,25 @@
             switch (key.Key)
             {
                 case ConsoleKey.UpArrow or ConsoleKey.W:
-                    if (y > 1 && Board.manyPosition[x][y - 1] != TileType.Types.wall)
+                    if (Board.manyPosition[x][y - 1] != TileType.Types.wall)
                     {
                         y--;
                     }
                     break;
                 case ConsoleKey.DownArrow or ConsoleKey.S:
-                    if (y < Program.size - 3 && Board.manyPosition[x][y + 1] != TileType.Types.wall)
+                    if (Board.manyPosition[x][y + 1] != TileType.Types.wall)
                     {
                         y++;
                     }
                     break;
                 case ConsoleKey.RightArrow or ConsoleKey.D:
-                    if (x < Program.size - 3 && Board.manyPosition[x + 1][y] != TileType.Types.wall)
+                    if (Board.manyPosition[x + 1][y] != TileType.Types.wall)
                     {
                         x++;
                     }
                     break;
                 case ConsoleKey.LeftArrow or ConsoleKey.A:
-                    if (x > 1 && Board.manyPosition[x - 1][y] != TileType.Types.wall)
+                    if (Board.manyPosition[x - 1][y] != TileType.Types.wall)
                     {
                         x--;
                     }
@@ -211,13 +211,14 @@
         }
         public static void Setup()
         {
-            //Console.OutputEncoding=System.Text.Encoding.Unicode; If it ever comes to using more complex text.
+
+            //Console.OutputEncoding=System.Text.Encoding.UTF8; //If it ever comes to using more complex text.
             Console.CursorVisible = false;
             Console.SetCursorPosition(0, 50);
             Console.WriteLine("My name is Yoshikage Kira. I'm 33 years old. ");
             Console.WriteLine("My house is in the northeast section of Morioh, where all the villas are, and I am not married.");
             Console.WriteLine("I work as an employee for the Kame Yu department stores, and I get home every day by 8 PM at the latest.");
-            Console.WriteLine("I don't smoke, but I occasionally drink. ");
+            Console.WriteLine("I don't smoke, but I occasionally drink.");
             Console.WriteLine("I’m in bed by 11 PM, and make sure I get eight hours of sleep, no matter what.");
             Console.WriteLine("After having a glass of warm milk and doing about twenty minutes of stretches before going to bed, ");
             Console.WriteLine("I usually have no problems sleeping until morning.");
