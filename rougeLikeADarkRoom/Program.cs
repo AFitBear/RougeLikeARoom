@@ -11,6 +11,7 @@
         static void Main(string[] args)
         {
             person.Setup(); //Setting things up
+            Fight.setupUpdateFighters(Program.level);
             size = 23;
             //makes the board
             Board boardPrint = new Board();
@@ -30,7 +31,7 @@
                 Console.WriteLine(Board.CheckTileType(xPorsition, yPorsition) + "          ");
                 person.action(ref xPorsition, ref yPorsition);
                 Board.CheckAction(Board.GetTileTypeInfo(Board.CheckTileType(xPorsition, yPorsition)).number);
-                if (Fight.ChechIfDed())
+                if (Player.ChechIfDed())
                 {
                     break; 
                 }
