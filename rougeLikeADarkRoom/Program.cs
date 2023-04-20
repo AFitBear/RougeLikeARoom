@@ -10,8 +10,12 @@
         static public int difficulty = 1;
         static void Main(string[] args)
         {
-            person.Setup(); //Setting things up
-            Fight.setupUpdateFighters(Program.level);
+            //Make Maze Function, NOT WORKING CURRENTLY
+            //zMazeMaker.MakeMazez();
+            //Console.ReadLine();
+
+            person.Setup(); //Setting things up like cursor visability
+            Fight.setupUpdateFighters(Program.level); //initilysing fighters
             size = 23;
             //makes the board
             Board boardPrint = new Board();
@@ -23,6 +27,7 @@
             Fight fight = new Fight();
             Fight.PrintFight(size);
             //game loop
+
             while (true)
             {
                 Console.SetCursorPosition(50, 20);
@@ -31,7 +36,7 @@
                 Console.WriteLine(Board.CheckTileType(xPorsition, yPorsition) + "          ");
                 person.action(ref xPorsition, ref yPorsition);
                 Board.CheckAction(Board.GetTileTypeInfo(Board.CheckTileType(xPorsition, yPorsition)).number);
-                if (Player.ChechIfDed())
+                if (Fight.hero.playerHP<1)
                 {
                     break; 
                 }
@@ -49,7 +54,7 @@
                     }*/
             }
             Console.Clear();
-            Console.WriteLine("You Dead");
+            Console.WriteLine("You Dead? Pathetic");
         }
     }
 }

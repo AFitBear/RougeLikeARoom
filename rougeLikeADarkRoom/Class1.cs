@@ -228,6 +228,7 @@
             Console.WriteLine("I take care not to trouble myself with any enemies, like winning and losing, that would cause me to lose sleep at night.");
             Console.WriteLine("That is how I deal with society, and I know that is what brings me happiness. ");
             Console.WriteLine("Although, if I were to fight I wouldn’t lose to anyone.");
+            Console.WriteLine("This is, Killer Quuen's Trap.");
         }
     }
     public static class Draww
