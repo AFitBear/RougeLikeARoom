@@ -3,13 +3,18 @@
 
     internal class Fight
     {
+        public static ConsoleColor activeColor=ConsoleColor.Red;
+        public static ConsoleColor themeColor=ConsoleColor.White;
+        public static int nowFighter;
+        public static Thread pT = new Thread(FightPlayer);
         public static int boxStart;
         public static int colSize;
+        public static int rowSize;
         public static Fighters[] allFighters = new Fighters[5];
-        public static Player hero = new Player("Hero", 60, 60);
+        public static Player hero = new Player("Hero", 60, 60, 5);
         static public void PrintFight(int size)
         {
-            int rowSize = 28;
+            rowSize = 28;
             colSize = 8;
             boxStart = size + 11;
             for (int row = boxStart; row < rowSize + boxStart - 1; row++)
@@ -27,6 +32,8 @@
             Console.WriteLine("Fight-Box");
             Console.SetCursorPosition(boxStart + 1, 1);
             Console.WriteLine("Your HP");
+            Console.SetCursorPosition(boxStart + 1, 2);
+            Console.WriteLine(hero.playerHP + "/" + hero.playerMaxHP);
             Console.SetCursorPosition(boxStart + rowSize - 11, 1);
             Console.WriteLine("Enemy HP");
         }
@@ -47,34 +54,65 @@
             Console.SetCursorPosition(enemyPositionX, playerLogoPositionY);
             Console.WriteLine(allFighters[nowFighter].logo);
             int notTempPosition = enemyPositionX;
+            int tempVektor = -1;
+            pT.Start();
             while (true)
             {
+                //skifter synligt postion af enemy
+                Thread.Sleep(100);
+                Console.SetCursorPosition(notTempPosition, playerLogoPositionY);
+                Console.WriteLine(" ");
+                notTempPosition += tempVektor;
+                Console.SetCursorPosition(notTempPosition, playerLogoPositionY);
+                Console.WriteLine(allFighters[nowFighter].logo + " ");
+                //skriver enemy HP
+                Console.SetCursorPosition(boxStart + rowSize-6, 2);
+                Console.Write("  ");
+                Console.SetCursorPosition(boxStart + rowSize - 6, 2);
+                Console.WriteLine(allFighters[nowFighter].hP);
 
-                while (true)
+
+                if (hero.playerHP < 1)
                 {
-                    Thread.Sleep(600);
-                    Console.SetCursorPosition(notTempPosition--, playerLogoPositionY);
-                    Console.WriteLine(allFighters[nowFighter].logo + " ");
-                    if (notTempPosition - 1 == playerLogoPositionX)
-                    {
-                        hero.playerHP = hero.playerHP - allFighters[nowFighter].damage;
-                        break;
-                    }
+                    break;
                 }
-                while (true)
+                if (allFighters[nowFighter].hP < 1)
                 {
-                    Thread.Sleep(600);
-                    Console.SetCursorPosition(notTempPosition++, playerLogoPositionY);
-                    Console.WriteLine(" "+allFighters[nowFighter].logo);
-                    if (notTempPosition + 1 == enemyPositionX)
-                    {
-                        hero.playerHP = hero.playerHP - allFighters[nowFighter].damage;
-                        break;
-                    }
+                    FighterDrop();
+                    break;
+                }
 
+                if (notTempPosition == enemyPositionX || notTempPosition == playerLogoPositionX + 1)
+                {
+                    tempVektor *= -1;
+                    if (notTempPosition == playerLogoPositionX + 1)
+                    {
+                        hero.playerHP -= allFighters[nowFighter].damage;
+                        Console.SetCursorPosition(boxStart + 2, 2);
+                        Console.Write(" ");
+                        Console.SetCursorPosition(boxStart + 1, 2);
+                        Console.WriteLine(hero.playerHP);
+
+                    }
                 }
             }
         }
+        static public void FightPlayer()
+        {
+            while (true)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.ReadKey();
+                allFighters[nowFighter].hP -= hero.damage;
+                Console.ForegroundColor = ConsoleColor.White;
+                if (hero.playerHP < 1) { break; }
+                if (allFighters[nowFighter].hP < 1)
+                {
+                    break;
+                }
+            }
+        }
+
         static public void BossFight()
         {
             Console.SetCursorPosition(50, 27);
@@ -100,7 +138,10 @@
             double temp1 = temp * 1.5;
             return Convert.ToInt32(temp1);
         }*/
-
+        public static void /*Item*/ FighterDrop()
+        {
+            return;
+        }
 
     }
     internal class Fighters
@@ -125,14 +166,16 @@
         public string name { get; set; }
         public int playerHP { get; set; }
         public int playerMaxHP { get; set; }
-        public int Damage { get; set; }
+        public int damage { get; set; }
+        public int cooldown { get; set; }
         public List<Item> inventory = new List<Item>();
-        public Player(string name, int playerHP, int playerMaxHP)
+        public Player(string name, int playerHP, int playerMaxHP, int cooldown)
         {
             this.name = name;
             this.playerHP = playerHP;
             this.playerMaxHP = playerMaxHP;
-            Damage = 2;
+            damage = 9;
+            this.cooldown = cooldown;
         }
         public bool ChechIfDed()
         {
