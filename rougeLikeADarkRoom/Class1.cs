@@ -1,6 +1,6 @@
 ﻿namespace rougeLikeADarkRoom
 {
-        internal class TileType
+    internal class TileType
     {
         public enum Types
         {
@@ -149,9 +149,10 @@
         }
         public static void BanditAction()
         {
-            Fight.BanditFight();
             Console.SetCursorPosition(50, 26);
             Console.WriteLine("BanditAction");
+            Fight.setupUpdateFighters(Program.level);//initilysing fighters
+            Fight.BanditFight();
         }
         public static void ChestAction()
         {
@@ -160,9 +161,10 @@
         }
         public static void BossAction()
         {
-            Fight.BossFight();
             Console.SetCursorPosition(47, 26);
             Console.WriteLine("BossAction");
+            Fight.setupUpdateFighters(Program.level);//initilysing fighters
+            Fight.BossFight();
         }
 
     }
@@ -212,10 +214,9 @@
         public static void Setup()
         {
 
-            //Console.OutputEncoding=System.Text.Encoding.UTF8; //If it ever comes to using more complex text.
+            //Console.OutputEncoding=System.Text.Encoding.UTF8; //If it ever comes to using more complex text..
+            Console.ForegroundColor = Fight.themeColor;
             Console.CursorVisible = false;
-            Thread pT = new Thread(Fight.FightPlayer);
-            //pT.Start();
             Console.SetCursorPosition(0, 50);
             Console.WriteLine("My name is Yoshikage Kira. I'm 33 years old. ");
             Console.WriteLine("My house is in the northeast section of Morioh, where all the villas are, and I am not married.");

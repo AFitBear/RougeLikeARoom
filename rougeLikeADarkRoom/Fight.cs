@@ -1,19 +1,22 @@
-﻿namespace rougeLikeADarkRoom
+﻿using System.Reflection.Emit;
+
+namespace rougeLikeADarkRoom
 {
 
     internal class Fight
     {
-        public static ConsoleColor activeColor=ConsoleColor.Red;
-        public static ConsoleColor themeColor=ConsoleColor.White;
+        public static ConsoleColor activeColor = ConsoleColor.White;
+        public static ConsoleColor themeColor = ConsoleColor.White;
         public static int nowFighter;
-        public static Thread pT = new Thread(FightPlayer);
+        public static Thread pT;
         public static int boxStart;
         public static int colSize;
         public static int rowSize;
         public static Fighters[] allFighters = new Fighters[5];
-        public static Player hero = new Player("Hero", 60, 60, 5);
+        public static Player hero = new Player("Hero", 60, 60,9, 5);
         static public void PrintFight(int size)
         {
+
             rowSize = 28;
             colSize = 8;
             boxStart = size + 11;
@@ -55,6 +58,7 @@
             Console.WriteLine(allFighters[nowFighter].logo);
             int notTempPosition = enemyPositionX;
             int tempVektor = -1;
+            pT =new Thread(FightPlayer);
             pT.Start();
             while (true)
             {
@@ -66,7 +70,7 @@
                 Console.SetCursorPosition(notTempPosition, playerLogoPositionY);
                 Console.WriteLine(allFighters[nowFighter].logo + " ");
                 //skriver enemy HP
-                Console.SetCursorPosition(boxStart + rowSize-6, 2);
+                Console.SetCursorPosition(boxStart + rowSize - 6, 2);
                 Console.Write("  ");
                 Console.SetCursorPosition(boxStart + rowSize - 6, 2);
                 Console.WriteLine(allFighters[nowFighter].hP);
@@ -101,11 +105,15 @@
         {
             while (true)
             {
+                Thread.Sleep(100 * hero.cooldown);
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.ReadKey();
+                Console.ReadKey(true);
                 allFighters[nowFighter].hP -= hero.damage;
                 Console.ForegroundColor = ConsoleColor.White;
-                if (hero.playerHP < 1) { break; }
+                if (hero.playerHP < 1)
+                {
+                    break;
+                }
                 if (allFighters[nowFighter].hP < 1)
                 {
                     break;
@@ -119,6 +127,8 @@
             Console.WriteLine("awdsdesfBOSSS");
             Program.level++;
             setupUpdateFighters(Program.level);
+            int size = 23;
+            Board.PrintBoard(size);
         }
         static public void setupUpdateFighters(int level)
         {
@@ -126,7 +136,7 @@
             allFighters[1] = new Fighters("bandit", 'b', ScaleMultiplyInt(4, level), ScaleMultiplyInt(25, level), 10);
             allFighters[2] = new Fighters("Thief", 't', ScaleMultiplyInt(3, level), ScaleMultiplyInt(18, level), 10);
             allFighters[3] = new Fighters("Corrupt Knight", 'k', ScaleMultiplyInt(6, level), ScaleMultiplyInt(20, level), 10);
-            allFighters[4] = new Fighters("Archer", 'a', ScaleMultiplyInt(8, level), ScaleMultiplyInt(18, level), 10);
+            allFighters[4] = new Fighters("Archer", 'a', ScaleMultiplyInt(8, level), -2/*ScaleMultiplyInt(18, level)*/, 10);
         }
         public static int ScaleMultiplyInt(int temp, int level) //scales with levels.
         {
@@ -152,12 +162,12 @@
         public int hP { get; set; }
         public int dropTable { get; set; }
         public int coolDown { get; set; }
-        public Fighters(string name, char logo, int damage, int HP, int coolDown)
+        public Fighters(string name, char logo, int damage, int hP, int coolDown)
         {
             this.name = name;
             this.logo = logo;
             this.damage = damage;
-            this.hP = HP;
+            this.hP = hP;
             this.coolDown = coolDown;
         }
     }
@@ -169,12 +179,12 @@
         public int damage { get; set; }
         public int cooldown { get; set; }
         public List<Item> inventory = new List<Item>();
-        public Player(string name, int playerHP, int playerMaxHP, int cooldown)
+        public Player(string name, int playerHP, int playerMaxHP, int damage, int cooldown)
         {
             this.name = name;
             this.playerHP = playerHP;
             this.playerMaxHP = playerMaxHP;
-            damage = 9;
+            this.damage = damage;
             this.cooldown = cooldown;
         }
         public bool ChechIfDed()

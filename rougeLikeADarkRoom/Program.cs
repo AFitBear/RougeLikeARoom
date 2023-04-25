@@ -15,7 +15,6 @@
             //Console.ReadLine();
 
             person.Setup(); //Setting things up like cursor visability
-            Fight.setupUpdateFighters(Program.level); //initilysing fighters
             size = 23;
             //makes the board
             Board boardPrint = new Board();
