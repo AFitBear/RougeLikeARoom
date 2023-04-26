@@ -1,4 +1,5 @@
 ﻿using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 
 namespace rougeLikeADarkRoom
 {
@@ -40,8 +41,9 @@ namespace rougeLikeADarkRoom
             Console.SetCursorPosition(boxStart + rowSize - 11, 1);
             Console.WriteLine("Enemy HP");
         }
-        static public void BanditFight()
+        static public void BanditFight(int nowFight)
         {
+            nowFighter=nowFight;
             Console.SetCursorPosition(50, 27);
             Console.WriteLine("sergfsefeffBBAANNDDIITT");
             Thread.Sleep(188);
@@ -52,14 +54,13 @@ namespace rougeLikeADarkRoom
             int enemyPositionX = playerLogoPositionX + 8;
             Console.SetCursorPosition(playerLogoPositionX, playerLogoPositionY);
             Console.Write('@');
-            Random random = new Random();
-            int nowFighter = random.Next(1, allFighters.Length);
             Console.SetCursorPosition(enemyPositionX, playerLogoPositionY);
             Console.WriteLine(allFighters[nowFighter].logo);
             int notTempPosition = enemyPositionX;
             int tempVektor = -1;
             pT =new Thread(FightPlayer);
             pT.Start();
+            
             while (true)
             {
                 //skifter synligt postion af enemy
@@ -68,14 +69,14 @@ namespace rougeLikeADarkRoom
                 Console.WriteLine(" ");
                 notTempPosition += tempVektor;
                 Console.SetCursorPosition(notTempPosition, playerLogoPositionY);
+                Console.ForegroundColor = activeColor;
                 Console.WriteLine(allFighters[nowFighter].logo + " ");
+                Console.ForegroundColor = themeColor;
                 //skriver enemy HP
                 Console.SetCursorPosition(boxStart + rowSize - 6, 2);
                 Console.Write("  ");
                 Console.SetCursorPosition(boxStart + rowSize - 6, 2);
                 Console.WriteLine(allFighters[nowFighter].hP);
-
-
                 if (hero.playerHP < 1)
                 {
                     break;
@@ -83,6 +84,7 @@ namespace rougeLikeADarkRoom
                 if (allFighters[nowFighter].hP < 1)
                 {
                     FighterDrop();
+                    Draww.Paint(playerLogoPositionX, playerLogoPositionY, "         ", themeColor);
                     break;
                 }
 
@@ -106,10 +108,10 @@ namespace rougeLikeADarkRoom
             while (true)
             {
                 Thread.Sleep(100 * hero.cooldown);
-                Console.ForegroundColor = ConsoleColor.Red;
+                activeColor= ConsoleColor.Red;
                 Console.ReadKey(true);
                 allFighters[nowFighter].hP -= hero.damage;
-                Console.ForegroundColor = ConsoleColor.White;
+                activeColor = ConsoleColor.White;
                 if (hero.playerHP < 1)
                 {
                     break;
@@ -132,11 +134,11 @@ namespace rougeLikeADarkRoom
         }
         static public void setupUpdateFighters(int level)
         {
-            allFighters[0] = new Fighters("Boss", 'B', ScaleMultiplyInt(30, level), ScaleMultiplyInt(70, level), 10);
+            allFighters[0] = new Fighters("Boss", 'B', ScaleMultiplyInt(30, level), ScaleMultiplyInt(/*70*/10, level), 10);
             allFighters[1] = new Fighters("bandit", 'b', ScaleMultiplyInt(4, level), ScaleMultiplyInt(25, level), 10);
             allFighters[2] = new Fighters("Thief", 't', ScaleMultiplyInt(3, level), ScaleMultiplyInt(18, level), 10);
             allFighters[3] = new Fighters("Corrupt Knight", 'k', ScaleMultiplyInt(6, level), ScaleMultiplyInt(20, level), 10);
-            allFighters[4] = new Fighters("Archer", 'a', ScaleMultiplyInt(8, level), -2/*ScaleMultiplyInt(18, level)*/, 10);
+            allFighters[4] = new Fighters("Archer", 'a', ScaleMultiplyInt(8, level), ScaleMultiplyInt(18, level), 10);
         }
         public static int ScaleMultiplyInt(int temp, int level) //scales with levels.
         {

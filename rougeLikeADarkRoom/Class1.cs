@@ -130,43 +130,39 @@
             //checks what action need to be done. like if you are on a bandit tile then i does bandit action
             switch (actionThing)
             {
-                case 2 or 3:
+                case 2://går på en ikke explorede tile
                     if (randoms.Next(0, 10) == 3)
-                        BanditAction();
+                    {
+                        Console.SetCursorPosition(50, 26);
+                        Console.WriteLine("BanditAction");
+                        Fight.setupUpdateFighters(Program.level);//initilysing fighters
+                        Fight.BanditFight(randoms.Next(1, Fight.allFighters.Length));
+                    }
                     break;
-                case 4:
-                    ChestAction();
+                case 3://går på en explored tile
+ 
                     break;
-                case 5:
-                    BanditAction();
+                case 4://chest
+                    //Fight.ChestAction();
+                    Console.SetCursorPosition(51, 27);
+                    Console.WriteLine("ChestAction");
                     break;
-                case 6:
-                    BossAction();
+                case 5://bandit fight
+                    Console.SetCursorPosition(50, 26);
+                    Console.WriteLine("BanditAction");
+                    Fight.setupUpdateFighters(Program.level);//initilysing fighters
+                    Fight.BanditFight(randoms.Next(1, Fight.allFighters.Length));
+                    break;
+                case 6://Boss fight
+                    Console.SetCursorPosition(47, 26);
+                    Console.WriteLine("BossAction");
+                    Fight.setupUpdateFighters(Program.level);//initilysing fighters
+                    Fight.BanditFight(0);
                     break;
                 default:
                     break;
             }
         }
-        public static void BanditAction()
-        {
-            Console.SetCursorPosition(50, 26);
-            Console.WriteLine("BanditAction");
-            Fight.setupUpdateFighters(Program.level);//initilysing fighters
-            Fight.BanditFight();
-        }
-        public static void ChestAction()
-        {
-            Console.SetCursorPosition(51, 27);
-            Console.WriteLine("ChestAction");
-        }
-        public static void BossAction()
-        {
-            Console.SetCursorPosition(47, 26);
-            Console.WriteLine("BossAction");
-            Fight.setupUpdateFighters(Program.level);//initilysing fighters
-            Fight.BossFight();
-        }
-
     }
 
     internal class person
@@ -236,9 +232,11 @@
     }
     public static class Draww
     {
-        public static void Paint(int x, int y, char sym, ConsoleColor color)
+        public static void Paint(int x, int y, string sym, ConsoleColor color)
         {
-            return;
+            Console.ForegroundColor = color;
+            Console.SetCursorPosition(x, y);
+            Console.WriteLine(sym);
         }
     }
 
