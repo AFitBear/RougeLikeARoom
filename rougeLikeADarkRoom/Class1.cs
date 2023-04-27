@@ -29,6 +29,7 @@
 
     internal class Board
     {
+        static int bossWay =0;
         static public Random randoms;
         static public int magicnumber = 21;
         static public int luckyness = 20;
@@ -85,9 +86,19 @@
                     }
                 }
             }
-            Console.SetCursorPosition(1, 1);
-            Console.Write(GetTileTypeInfo(TileType.Types.boss).logo);
-            manyPosition[1][1] = TileType.Types.boss;
+
+            if (Program.level % 2 == 0)
+            {
+                Console.SetCursorPosition(1, 1);
+                Console.Write(GetTileTypeInfo(TileType.Types.boss).logo);
+                manyPosition[1][1] = TileType.Types.boss;
+            }
+            else
+            {
+                Console.SetCursorPosition(rowsAndCols-3,1);
+                Console.Write(GetTileTypeInfo(TileType.Types.boss).logo);
+                manyPosition[rowsAndCols-3][1] = TileType.Types.boss;
+            }
 
             manyPosition[2][5] = TileType.Types.wall;
             Console.SetCursorPosition(2, 5);
@@ -157,7 +168,7 @@
                     Console.SetCursorPosition(47, 26);
                     Console.WriteLine("BossAction");
                     Fight.setupUpdateFighters(Program.level);//initilysing fighters
-                    Fight.BanditFight(0);
+                    Fight.BossFight();
                     break;
                 default:
                     break;
@@ -227,7 +238,7 @@
             Console.WriteLine("I take care not to trouble myself with any enemies, like winning and losing, that would cause me to lose sleep at night.");
             Console.WriteLine("That is how I deal with society, and I know that is what brings me happiness. ");
             Console.WriteLine("Although, if I were to fight I wouldn’t lose to anyone.");
-            Console.WriteLine("This is, Killer Quuen's Trap.");
+            Console.WriteLine("This is, The Killer Quuen's Trap.");
         }
     }
     public static class Draww
