@@ -19,9 +19,10 @@
             //makes the board
             Board boardPrint = new Board();
             Board.PrintBoard(size);
-            //start position is the middle of the board
+            //start position is the middle of the board and puts the player there
             xPorsition = size / 2;
             yPorsition = size / 2;
+            Draww.Paint(xPorsition, yPorsition, "@", ConsoleColor.Green);
             //Makes the fights board where you fight enemies
             Fight fight = new Fight();
             Fight.PrintFight(size);
@@ -34,7 +35,7 @@
                 Console.SetCursorPosition(50, 21);
                 Console.WriteLine(Board.CheckTileType(xPorsition, yPorsition) + "          ");
                 person.action(ref xPorsition, ref yPorsition);
-                Board.CheckAction(Board.GetTileTypeInfo(Board.CheckTileType(xPorsition, yPorsition)).number);
+                Board.CheckAction(Board.CheckTileType(xPorsition, yPorsition));
                 if (Fight.hero.playerHP<1)
                 {
                     break; 

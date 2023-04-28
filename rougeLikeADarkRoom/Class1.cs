@@ -1,4 +1,6 @@
-﻿namespace rougeLikeADarkRoom
+﻿using System;
+
+namespace rougeLikeADarkRoom
 {
     internal class TileType
     {
@@ -29,7 +31,7 @@
 
     internal class Board
     {
-        static int bossWay =0;
+        static int bossWay = 0;
         static public Random randoms;
         static public int magicnumber = 21;
         static public int luckyness = 20;
@@ -64,11 +66,11 @@
                             switch (randoms.Next(0, luckyness))
                             {
                                 case < 10 when 4 < 5:
-                                    Console.Write(GetTileTypeInfo(TileType.Types.chest).logo);
+                                    Draww.Paint(row,col,GetTileTypeInfo(TileType.Types.chest).logo.ToString(), GetTileTypeInfo(TileType.Types.chest).color);
                                     manyPosition[row][col] = TileType.Types.chest;
                                     break;
                                 case > 9:
-                                    Console.Write(GetTileTypeInfo(TileType.Types.bandit).logo);
+                                    Draww.Paint(row, col, GetTileTypeInfo(TileType.Types.bandit).logo.ToString(), GetTileTypeInfo(TileType.Types.bandit).color);
                                     manyPosition[row][col] = TileType.Types.bandit;
                                     break;
                                 default:
@@ -80,68 +82,72 @@
                         }
                         else
                         {
-                            Console.Write(GetTileTypeInfo(TileType.Types.unexplored).logo);
+                            Draww.Paint(row, col, GetTileTypeInfo(TileType.Types.unexplored).logo.ToString(), GetTileTypeInfo(TileType.Types.unexplored).color);
                             manyPosition[row][col] = TileType.Types.unexplored;
                         }
                     }
                 }
             }
-
-            if (Program.level % 2 == 0)
-            {
+            
+                if (Program.level % 2 == 0)
+                {
+                Draww.Paint(1, 1, GetTileTypeInfo(TileType.Types.boss).logo.ToString(), GetTileTypeInfo(TileType.Types.boss).color);
                 Console.SetCursorPosition(1, 1);
-                Console.Write(GetTileTypeInfo(TileType.Types.boss).logo);
-                manyPosition[1][1] = TileType.Types.boss;
-            }
-            else
-            {
-                Console.SetCursorPosition(rowsAndCols-3,1);
-                Console.Write(GetTileTypeInfo(TileType.Types.boss).logo);
-                manyPosition[rowsAndCols-3][1] = TileType.Types.boss;
-            }
+                    Console.Write(GetTileTypeInfo(TileType.Types.boss).logo);
+                    manyPosition[1][1] = TileType.Types.boss;
+                    //Draww.Paint(rowsAndCols - 3, 1, "@", ConsoleColor.Green);
+                }
+                else
+                {
+                Draww.Paint(rowsAndCols-3, 1, GetTileTypeInfo(TileType.Types.boss).logo.ToString(), GetTileTypeInfo(TileType.Types.boss).color);
+                    manyPosition[rowsAndCols - 3][1] = TileType.Types.boss;
+                    //Draww.Paint(1, 1, "@", ConsoleColor.Green);
+                }
+            
+
 
             manyPosition[2][5] = TileType.Types.wall;
             Console.SetCursorPosition(2, 5);
-            Console.Write(GetTileTypeInfo(TileType.Types.wall).logo); ;
+            Console.Write(GetTileTypeInfo(TileType.Types.wall).logo);
 
 
         }
-        public static (string name, char logo, int number) GetTileTypeInfo(TileType.Types theTile)
+        public static (string name, char logo, ConsoleColor color) GetTileTypeInfo(TileType.Types theTile)
         {
             switch (theTile)
             {
                 case TileType.Types.wall:
-                    return ("wall", '█', 1);
+                    return ("wall", '█', ConsoleColor.White);
 
                 case TileType.Types.unexplored:
-                    return ("une", '.', 2);
+                    return ("une", '.', ConsoleColor.White);
 
                 case TileType.Types.explored:
-                    return ("exp", '+', 3);
+                    return ("exp", '+', ConsoleColor.DarkGreen);
 
                 case TileType.Types.chest:
-                    return ("chest", 'c', 4);
+                    return ("chest", 'c', ConsoleColor.Yellow);
 
                 case TileType.Types.bandit:
-                    return ("band", 'b', 5);
+                    return ("band", 'b', ConsoleColor.Red);
 
                 case TileType.Types.boss:
-                    return ("boss", 'B', 6);
+                    return ("boss", 'B', ConsoleColor.DarkRed);
                 default:
-                    return ("null", '?', 0);
+                    return ("null", '?', ConsoleColor.DarkMagenta);
             }
         }
         public static TileType.Types CheckTileType(int x, int y)
         {
             return manyPosition[x][y];
         }
-        public static void CheckAction(int actionThing)
+        public static void CheckAction(TileType.Types typetilswitch)
         {
             //manyPosition(x,y) //check what tile function, with a return. then have that return be the int or something
             //checks what action need to be done. like if you are on a bandit tile then i does bandit action
-            switch (actionThing)
+            switch (typetilswitch)
             {
-                case 2://går på en ikke explorede tile
+                case TileType.Types.unexplored://går på en ikke explorede tile
                     if (randoms.Next(0, 10) == 3)
                     {
                         Console.SetCursorPosition(50, 26);
@@ -150,21 +156,21 @@
                         Fight.BanditFight(randoms.Next(1, Fight.allFighters.Length));
                     }
                     break;
-                case 3://går på en explored tile
- 
+                case TileType.Types.explored://går på en explored tile
+
                     break;
-                case 4://chest
+                case TileType.Types.chest://chest
                     //Fight.ChestAction();
                     Console.SetCursorPosition(51, 27);
                     Console.WriteLine("ChestAction");
                     break;
-                case 5://bandit fight
+                case TileType.Types.bandit://bandit fight
                     Console.SetCursorPosition(50, 26);
                     Console.WriteLine("BanditAction");
                     Fight.setupUpdateFighters(Program.level);//initilysing fighters
                     Fight.BanditFight(randoms.Next(1, Fight.allFighters.Length));
                     break;
-                case 6://Boss fight
+                case TileType.Types.boss://Boss fight
                     Console.SetCursorPosition(47, 26);
                     Console.WriteLine("BossAction");
                     Fight.setupUpdateFighters(Program.level);//initilysing fighters
@@ -181,8 +187,7 @@
         public static void action(ref int x, ref int y)
         {
             ConsoleKeyInfo key = Console.ReadKey(true);//There need to be "true" so it intercepts the thing i write.AKA it does not wirte the letter I press down.
-            Console.SetCursorPosition(x, y);
-            Console.Write('+');
+            Draww.Paint(x,y, Board.GetTileTypeInfo(TileType.Types.explored).logo.ToString(), Board.GetTileTypeInfo(TileType.Types.explored).color);
             Board.manyPosition[x][y] = TileType.Types.explored;
             switch (key.Key)
             {
@@ -214,8 +219,7 @@
                     break;
 
             }
-            Console.SetCursorPosition(x, y);
-            Console.Write('@');
+            Draww.Paint(x, y, "@", ConsoleColor.Green);
 
         }
         public static void Setup()
@@ -224,7 +228,7 @@
             //Console.OutputEncoding=System.Text.Encoding.UTF8; //If it ever comes to using more complex text..
             Console.ForegroundColor = Fight.themeColor;
             Console.CursorVisible = false;
-            Console.SetCursorPosition(0, 50);
+            Console.SetCursorPosition(0, 60);
             Console.WriteLine("My name is Yoshikage Kira. I'm 33 years old. ");
             Console.WriteLine("My house is in the northeast section of Morioh, where all the villas are, and I am not married.");
             Console.WriteLine("I work as an employee for the Kame Yu department stores, and I get home every day by 8 PM at the latest.");
@@ -247,7 +251,98 @@
         {
             Console.ForegroundColor = color;
             Console.SetCursorPosition(x, y);
-            Console.WriteLine(sym);
+            Console.Write(sym);
+            Console.ForegroundColor = Fight.themeColor;
+        }
+        public static void Paint0(int x, int y)
+        {
+            Console.SetCursorPosition(x, y);
+            Console.Write("▄▄▄");
+            Console.SetCursorPosition(x, y + 1);
+            Console.Write("█ █");
+            Console.SetCursorPosition(x, y + 2);
+            Console.Write("█▄█");
+        }
+        public static void Paint1(int x, int y)
+        {
+            Console.SetCursorPosition(x, y);
+            Console.Write(" ▄ ");
+            Console.SetCursorPosition(x, y + 1);
+            Console.Write(" █ ");
+            Console.SetCursorPosition(x, y + 2);
+            Console.Write(" █ ");
+        }
+        public static void Paint2(int x, int y)
+        {
+            Console.SetCursorPosition(x, y);
+            Console.Write("█▀█");
+            Console.SetCursorPosition(x, y + 1);
+            Console.Write(" ▄▀");
+            Console.SetCursorPosition(x, y + 2);
+            Console.Write("█▄▄");
+        }
+        public static void Paint3(int x, int y)
+        {
+            Console.SetCursorPosition(x, y);
+            Console.Write("▄▄▄");
+            Console.SetCursorPosition(x, y + 1);
+            Console.Write("▄▄█");
+            Console.SetCursorPosition(x, y + 2);
+            Console.Write("▄▄█");
+        }
+        public static void Paint4(int x, int y)
+        {
+            Console.SetCursorPosition(x, y);
+            Console.Write("▄ ▄");
+            Console.SetCursorPosition(x, y + 1);
+            Console.Write("█▄█");
+            Console.SetCursorPosition(x, y + 2);
+            Console.Write("  █");
+        }
+        public static void Paint5(int x, int y)
+        {
+            Console.SetCursorPosition(x, y);
+            Console.Write("▄▄▄");
+            Console.SetCursorPosition(x, y + 1);
+            Console.Write("█▄▄");
+            Console.SetCursorPosition(x, y + 2);
+            Console.Write("▄▄█");  //█▄▀
+        }
+        public static void Paint6(int x, int y)
+        {
+            Console.SetCursorPosition(x, y);
+            Console.Write("▄▄▄");
+            Console.SetCursorPosition(x, y + 1);
+            Console.Write("█▄▄");
+            Console.SetCursorPosition(x, y + 2);
+            Console.Write("█▄█");
+        }
+        public static void Paint7(int x, int y)
+        {
+            Console.SetCursorPosition(x, y);
+            Console.Write("▄▄▄");
+            Console.SetCursorPosition(x, y + 1);
+            Console.Write("  █");
+            Console.SetCursorPosition(x, y + 2);
+            Console.Write("  █");
+        }
+        public static void Paint8(int x, int y)
+        {
+            Console.SetCursorPosition(x, y);
+            Console.Write("▄▄▄");
+            Console.SetCursorPosition(x, y + 1);
+            Console.Write("█▄█");
+            Console.SetCursorPosition(x, y + 2);
+            Console.Write("█▄█");
+        }
+        public static void Paint9(int x, int y)
+        {
+            Console.SetCursorPosition(x, y);
+            Console.Write("▄▄▄");
+            Console.SetCursorPosition(x, y + 1);
+            Console.Write("█▄█");
+            Console.SetCursorPosition(x, y + 2);
+            Console.Write("  █");
         }
     }
 
