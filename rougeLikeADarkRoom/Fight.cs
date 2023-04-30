@@ -162,8 +162,8 @@
     {
         public string name { get; set; }
         public char logo { get; set; }
-        public int damage { get; set; }
-        public int hP { get; set; }
+        public int damage { get; set; }  
+        public int hP { get; set; } 
         public int dropTable { get; set; }
         public int coolDown { get; set; }
         public Fighters(string name, char logo, int damage, int hP, int coolDown)

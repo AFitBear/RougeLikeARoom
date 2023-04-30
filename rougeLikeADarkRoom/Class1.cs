@@ -129,8 +129,8 @@ namespace rougeLikeADarkRoom
                     return ("chest", 'c', ConsoleColor.Yellow);
 
                 case TileType.Types.bandit:
-                    return ("band", 'b', ConsoleColor.Red);
-
+                    return ("band", 'b', ConsoleColor.Red); 
+                     
                 case TileType.Types.boss:
                     return ("boss", 'B', ConsoleColor.DarkRed);
                 default:
@@ -151,7 +151,7 @@ namespace rougeLikeADarkRoom
                     if (randoms.Next(0, 10) == 3)
                     {
                         Console.SetCursorPosition(50, 26);
-                        Console.WriteLine("BanditAction");
+                        Console.WriteLine("BanditAction       ");
                         Fight.setupUpdateFighters(Program.level);//initilysing fighters
                         Fight.BanditFight(randoms.Next(1, Fight.allFighters.Length));
                     }
@@ -161,18 +161,18 @@ namespace rougeLikeADarkRoom
                     break;
                 case TileType.Types.chest://chest
                     //Fight.ChestAction();
-                    Console.SetCursorPosition(51, 27);
-                    Console.WriteLine("ChestAction");
+                    Console.SetCursorPosition(50, 26);
+                    Console.WriteLine("ChestAction          ");
                     break;
                 case TileType.Types.bandit://bandit fight
                     Console.SetCursorPosition(50, 26);
-                    Console.WriteLine("BanditAction");
+                    Console.WriteLine("BanditAction            ");
                     Fight.setupUpdateFighters(Program.level);//initilysing fighters
                     Fight.BanditFight(randoms.Next(1, Fight.allFighters.Length));
                     break;
                 case TileType.Types.boss://Boss fight
-                    Console.SetCursorPosition(47, 26);
-                    Console.WriteLine("BossAction");
+                    Console.SetCursorPosition(50, 26);
+                    Console.WriteLine("BossAction          ");
                     Fight.setupUpdateFighters(Program.level);//initilysing fighters
                     Fight.BossFight();
                     break;
