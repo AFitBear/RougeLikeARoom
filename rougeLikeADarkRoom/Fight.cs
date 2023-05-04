@@ -13,6 +13,8 @@
         public static int rowSize;
         public static Fighters[] allFighters = new Fighters[5];
         public static Player hero = new Player("Hero", 60, 60, 9, 5);
+        private static bool isReady = false;
+        private static int playerRandNumber = 0;
         static public void PrintFight(int size)
         {
 
@@ -75,7 +77,15 @@
                 Console.Write("  ");
                 Console.SetCursorPosition(boxStart + rowSize - 6, 2);
                 Console.WriteLine(allFighters[nowFighter].hP);
-                
+
+                if (isReady)
+                {
+                    Draww.WhatNumb(ConsoleColor.Red, playerRandNumber, boxStart + rowSize + 2, 2);
+                }
+                else
+                {
+                    Draww.PaintNull(boxStart + rowSize + 2, 2);
+                }
 
                 if (hero.playerHP < 1)
                 {
@@ -83,6 +93,7 @@
                 }
                 if (allFighters[nowFighter].hP < 1)
                 {
+                    Draww.PaintNull(boxStart + rowSize + 2, 2);
                     FighterDrop();
                     Draww.Paint(playerLogoPositionX, playerLogoPositionY, "         ", themeColor);
 
@@ -109,9 +120,15 @@
             while (true)
             {
                 Thread.Sleep(100 * hero.cooldown);
+                playerRandNumber = Random.Next(0, 10);
                 activeColor = ConsoleColor.Red;
-                Console.ReadKey(true);
-                allFighters[nowFighter].hP -= hero.damage;
+                isReady = true;
+                ConsoleKeyInfo hi = Console.ReadKey(true);
+                if (hi.KeyChar.ToString() == playerRandNumber.ToString())
+                {
+                    isReady = false;
+                    allFighters[nowFighter].hP -= hero.damage;
+                }
                 activeColor = ConsoleColor.White;
                 if (hero.playerHP < 1)
                 {
@@ -136,7 +153,7 @@
         }
         static public void setupUpdateFighters(int level)
         {
-            allFighters[0] = new Fighters("Boss", 'B', ScaleMultiplyInt(15, level), ScaleMultiplyInt(70, level), 5);
+            allFighters[0] = new Fighters("Boss", 'B', ScaleMultiplyInt(12, level), ScaleMultiplyInt(70, level), 6);
             allFighters[1] = new Fighters("bandit", 'b', ScaleMultiplyInt(2, level), ScaleMultiplyInt(20, level), 2);
             allFighters[2] = new Fighters("Thief", 't', ScaleMultiplyInt(2, level), ScaleMultiplyInt(18, level), 1);
             allFighters[3] = new Fighters("Corrupt Knight", 'k', ScaleMultiplyInt(3, level), ScaleMultiplyInt(20, level), 4);
@@ -144,7 +161,7 @@
         }
         public static int ScaleMultiplyInt(int temp, int level) //scales with levels.
         {
-            double temp1 = temp * 1 + (0.5 * level);
+            double temp1 = temp * (1 + (0.5 * level));
             return Convert.ToInt32(temp1);
         }
         /*public static int ScaleDiffMultiInt(int temp, int level)
@@ -162,8 +179,8 @@
     {
         public string name { get; set; }
         public char logo { get; set; }
-        public int damage { get; set; }  
-        public int hP { get; set; } 
+        public int damage { get; set; }
+        public int hP { get; set; }
         public int dropTable { get; set; }
         public int coolDown { get; set; }
         public Fighters(string name, char logo, int damage, int hP, int coolDown)
@@ -200,7 +217,7 @@
             return true;
         }
 
-        //essssssssssssssssssssssssssssssssssssssss                  Færdigør.                   sssssssssssssssssssssssssssssssssssssssssssss
+        //essssssssssssssssssssssssssssssssssssssss                 NOT WORKING               sssssssssssssssssssssssssssssssssssssssssssss
         static public void setupItems()//im gonna have item scale with level. maybe higher levels grants higher level items, then randomize the level later and the amount. 
         {
             Item bread = new Item("Bread", 1, 1, true, 1);

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace rougeLikeADarkRoom
+﻿namespace rougeLikeADarkRoom
 {
     internal class TileType
     {
@@ -66,7 +64,7 @@ namespace rougeLikeADarkRoom
                             switch (randoms.Next(0, luckyness))
                             {
                                 case < 10 when 4 < 5:
-                                    Draww.Paint(row,col,GetTileTypeInfo(TileType.Types.chest).logo.ToString(), GetTileTypeInfo(TileType.Types.chest).color);
+                                    Draww.Paint(row, col, GetTileTypeInfo(TileType.Types.chest).logo.ToString(), GetTileTypeInfo(TileType.Types.chest).color);
                                     manyPosition[row][col] = TileType.Types.chest;
                                     break;
                                 case > 9:
@@ -88,22 +86,22 @@ namespace rougeLikeADarkRoom
                     }
                 }
             }
-            
-                if (Program.level % 2 == 0)
-                {
+
+            if (Program.level % 2 == 0)
+            {
                 Draww.Paint(1, 1, GetTileTypeInfo(TileType.Types.boss).logo.ToString(), GetTileTypeInfo(TileType.Types.boss).color);
                 Console.SetCursorPosition(1, 1);
-                    Console.Write(GetTileTypeInfo(TileType.Types.boss).logo);
-                    manyPosition[1][1] = TileType.Types.boss;
-                    //Draww.Paint(rowsAndCols - 3, 1, "@", ConsoleColor.Green);
-                }
-                else
-                {
-                Draww.Paint(rowsAndCols-3, 1, GetTileTypeInfo(TileType.Types.boss).logo.ToString(), GetTileTypeInfo(TileType.Types.boss).color);
-                    manyPosition[rowsAndCols - 3][1] = TileType.Types.boss;
-                    //Draww.Paint(1, 1, "@", ConsoleColor.Green);
-                }
-            
+                Console.Write(GetTileTypeInfo(TileType.Types.boss).logo);
+                manyPosition[1][1] = TileType.Types.boss;
+                //Draww.Paint(rowsAndCols - 3, 1, "@", ConsoleColor.Green);
+            }
+            else
+            {
+                Draww.Paint(rowsAndCols - 3, 1, GetTileTypeInfo(TileType.Types.boss).logo.ToString(), GetTileTypeInfo(TileType.Types.boss).color);
+                manyPosition[rowsAndCols - 3][1] = TileType.Types.boss;
+                //Draww.Paint(1, 1, "@", ConsoleColor.Green);
+            }
+
 
 
             manyPosition[2][5] = TileType.Types.wall;
@@ -129,8 +127,8 @@ namespace rougeLikeADarkRoom
                     return ("chest", 'c', ConsoleColor.Yellow);
 
                 case TileType.Types.bandit:
-                    return ("band", 'b', ConsoleColor.Red); 
-                     
+                    return ("band", 'b', ConsoleColor.Red);
+
                 case TileType.Types.boss:
                     return ("boss", 'B', ConsoleColor.DarkRed);
                 default:
@@ -187,7 +185,7 @@ namespace rougeLikeADarkRoom
         public static void action(ref int x, ref int y)
         {
             ConsoleKeyInfo key = Console.ReadKey(true);//There need to be "true" so it intercepts the thing i write.AKA it does not wirte the letter I press down.
-            Draww.Paint(x,y, Board.GetTileTypeInfo(TileType.Types.explored).logo.ToString(), Board.GetTileTypeInfo(TileType.Types.explored).color);
+            Draww.Paint(x, y, Board.GetTileTypeInfo(TileType.Types.explored).logo.ToString(), Board.GetTileTypeInfo(TileType.Types.explored).color);
             Board.manyPosition[x][y] = TileType.Types.explored;
             switch (key.Key)
             {
@@ -253,6 +251,66 @@ namespace rougeLikeADarkRoom
             Console.SetCursorPosition(x, y);
             Console.Write(sym);
             Console.ForegroundColor = Fight.themeColor;
+        }
+        //We Do Be Using A thing Called Overload. IDK y it is called that, but uhh. it is. something somthing uhh...Now have both char and string to print/write. python refrence omg!
+        public static void Paint(int x, int y, char sym, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.SetCursorPosition(x, y);
+            Console.Write(sym);
+            Console.ForegroundColor = Fight.themeColor;
+        }
+        public static void WhatNumb(ConsoleColor color, int numb, int x, int y)
+        {
+            Console.ForegroundColor= color;
+            switch (numb)
+            {
+                case -1:
+                    PaintNull(x, y);
+                    break;
+                case 0:
+                    Paint0(x, y);
+                    break;
+                case 1:
+                    Paint1(x, y);
+                    break;
+                case 2:
+                    Paint2(x, y);
+                    break;
+                case 3:
+                    Paint3(x, y);
+                    break;
+                case 4:
+                    Paint4(x, y);
+                    break;
+                case 5:
+                    Paint5(x, y);
+                    break;
+                case 6:
+                    Paint6(x, y);
+                    break;
+                case 7:
+                    Paint7(x, y);
+                    break;
+                case 8:
+                    Paint8(x, y);
+                    break;
+                case 9:
+                    Paint9(x, y);
+                    break;
+                default: 
+                    break;
+            }
+            Console.ForegroundColor = Fight.themeColor;
+        }
+        public static void PaintNull(int x, int y)
+        {
+            Console.SetCursorPosition(x, y);
+            Console.Write("   ");
+            Console.SetCursorPosition(x, y + 1);
+            Console.Write("   ");
+            Console.SetCursorPosition(x, y + 2);
+            Console.Write("   ");
         }
         public static void Paint0(int x, int y)
         {

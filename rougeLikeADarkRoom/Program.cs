@@ -40,18 +40,7 @@
                 {
                     break; 
                 }
-                //ConsoleColor thing = ConsoleColor.Red;
-                //Console.ForegroundColor = thing;
-                //Console.WriteLine(Board.GetTileTypeInfo(Board.CheckTileType(1, 1)));
-                //                                                 CheckAction(GetTileTypeInfo(TileType.Types theTile));
-                    /*previousFrameTime = DateTime.UtcNow;
-                    elapsedTime = (float)(DateTime.UtcNow - previousFrameTime).TotalSeconds;
-                    if (elapsedTime < TARGET_FRAME_TIME)
-                    {
-                        // Hvis en frame tid ikke er forløbet endnu, sov lidt:
-                        int sleepTime = (int)((TARGET_FRAME_TIME - elapsedTime) * 1000);
-                        System.Threading.Thread.Sleep(sleepTime);
-                    }*/
+              
             }
             Console.Clear();
             Console.WriteLine("You Dead? Pathetic");
